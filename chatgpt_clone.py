@@ -5,7 +5,8 @@ from google import genai
 from google.genai import types
 
 load_dotenv()
-API_KEY = os.getenv("GEMINI_API_KEY") or (st.secrets["GEMINI_API_KEY"] if "GEMINI_API_KEY" in st.secrets else None)
+raw_key = os.getenv("GEMINI_API_KEY") or (st.secrets.get("GEMINI_API_KEY") if hasattr(st, "secrets") else None)
+API_KEY = str(raw_key).strip().strip('"').strip("'") if raw_key else ""
 
 st.set_page_config(
     page_title="Sika AI",
@@ -34,14 +35,11 @@ if st.session_state.theme == "light":
 
 
 @st.cache_resource
-def get_client():
-    return genai.Client(
-        api_key=API_KEY,
-        http_options={"api_version": "v1beta"}
-    )
+def get_client(key: str):
+    return genai.Client(api_key=key)
 
 
-client = get_client()
+client = get_client(API_KEY)
 
 with st.sidebar:
     st.markdown("""
@@ -144,6 +142,7 @@ if user_input := st.chat_input("Message Sika AI..."):
         response = st.session_state[chat_key].send_message(full_prompt)
         ai_reply = response.text
     except Exception as e:
+        st.session_state.pop(chat_key, None)
         ai_reply = f"Error: {e}"
 
     st.session_state.messages.append({"role": "assistant", "content": ai_reply})
