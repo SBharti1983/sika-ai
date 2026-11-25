@@ -749,6 +749,7 @@ hr {
 @media (max-width: 768px) {
 
     /* Mobile Sidebar overlay when expanded */
+    section[data-testid="stSidebar"][data-collapsed="false"],
     section[data-testid="stSidebar"][aria-expanded="true"] {
         display: block !important;
         visibility: visible !important;
@@ -764,6 +765,7 @@ hr {
         box-shadow: 8px 0 32px rgba(0, 0, 0, 0.8) !important;
     }
 
+    section[data-testid="stSidebar"][data-collapsed="false"] > div,
     section[data-testid="stSidebar"][aria-expanded="true"] > div {
         height: 100vh !important;
     }
