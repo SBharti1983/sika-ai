@@ -20,8 +20,17 @@ html, body {
     overflow: hidden;
 }
 
-/* Hide Streamlit chrome & Cloud toolbar (Share, Star, Edit, GitHub, Deploy, Footer) */
-#MainMenu, footer, .stDeployButton, [data-testid="stToolbar"], [data-testid="stHeaderActionElements"], .stAppToolbar {
+/* Hide Streamlit chrome & Cloud toolbar (Share, Star, Edit, GitHub, Deploy, Footer, Manage app) */
+#MainMenu,
+footer,
+.stDeployButton,
+[data-testid="stToolbar"],
+[data-testid="stHeaderActionElements"],
+.stAppToolbar,
+[class*="viewerBadge"],
+[class*="styles_viewerBadge"],
+[data-testid="manage-app-button"],
+div[class*="manage-app"] {
     display: none !important;
     visibility: hidden !important;
 }

@@ -8,7 +8,16 @@
     color: #0f172a !important;
 }
 
-#MainMenu, footer, .stDeployButton, [data-testid="stToolbar"], [data-testid="stHeaderActionElements"], .stAppToolbar {
+#MainMenu,
+footer,
+.stDeployButton,
+[data-testid="stToolbar"],
+[data-testid="stHeaderActionElements"],
+.stAppToolbar,
+[class*="viewerBadge"],
+[class*="styles_viewerBadge"],
+[data-testid="manage-app-button"],
+div[class*="manage-app"] {
     display: none !important;
     visibility: hidden !important;
 }
