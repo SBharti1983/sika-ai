@@ -20,8 +20,11 @@ html, body {
     overflow: hidden;
 }
 
-/* Hide Streamlit chrome — deploy button & footer only */
-#MainMenu, footer, .stDeployButton { display: none !important; visibility: hidden !important; }
+/* Hide Streamlit chrome & Cloud toolbar (Share, Star, Edit, GitHub, Deploy, Footer) */
+#MainMenu, footer, .stDeployButton, [data-testid="stToolbar"], [data-testid="stHeaderActionElements"], .stAppToolbar {
+    display: none !important;
+    visibility: hidden !important;
+}
 
 /* Header transparent */
 header[data-testid="stHeader"] {
@@ -357,9 +360,17 @@ section[data-testid="stSidebar"] .stButton:nth-of-type(2) > button:hover {
 }
 
 /* ── MAIN CONTENT ── */
-.block-container {
-    padding: 0 !important;
-    max-width: 100% !important;
+/* Main content container — centered with breathing room for >> button and floating input */
+.main .block-container,
+[data-testid="stMainBlockContainer"] {
+    padding-top: 3.5rem !important;
+    padding-bottom: 5.5rem !important;
+    padding-left: 1.2rem !important;
+    padding-right: 1.2rem !important;
+    max-width: 780px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100% !important;
 }
 
 [data-testid="stAppViewContainer"] {
@@ -370,11 +381,6 @@ section[data-testid="stSidebar"] .stButton:nth-of-type(2) > button:hover {
     background: #0a0a0a !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
-}
-
-[data-testid="stMainBlockContainer"] {
-    padding: 0 !important;
-    padding-bottom: 0 !important;
 }
 
 .stVerticalBlock {
@@ -511,16 +517,14 @@ section[data-testid="stMain"] > div:first-child {
 }
 
 /* ── CHAT MESSAGES ── */
-[data-testid="stChatMessagesContainer"] {
-    padding: 0.5rem 0 !important;
-    max-width: 720px !important;
-    margin: 0 auto !important;
-}
-
 [data-testid="stChatMessage"] {
-    padding: 0.75rem 1.2rem !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-bottom: 0.65rem !important;
+    padding: 0.85rem 1.25rem !important;
     border-radius: 12px !important;
-    margin-bottom: 0.4rem !important;
     animation: fadeIn 0.25s ease;
 }
 
