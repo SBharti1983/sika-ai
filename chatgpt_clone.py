@@ -3,6 +3,7 @@ import streamlit as st
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
+from PIL import Image
 
 load_dotenv()
 raw_key = os.getenv("GEMINI_API_KEY") or (st.secrets.get("GEMINI_API_KEY") if hasattr(st, "secrets") else None)
@@ -73,38 +74,48 @@ with st.sidebar:
     st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown('<div class="sb-section">', unsafe_allow_html=True)
-    st.markdown('<span class="sb-label">📄 Upload PDF</span>', unsafe_allow_html=True)
+    st.markdown('<span class="sb-label">📎 Upload File (PDF / Image)</span>', unsafe_allow_html=True)
     uploaded_file = st.file_uploader(
-        "pdf",
-        type=["pdf"],
+        "file_uploader",
+        type=["pdf", "png", "jpg", "jpeg", "webp"],
         label_visibility="collapsed"
     )
     st.markdown('</div>', unsafe_allow_html=True)
 
+    uploaded_image = None
     pdf_text = ""
     if uploaded_file:
-        pdf_bytes = uploaded_file.read()
-        text_parts = []
-        start = 0
-        while True:
-            start = pdf_bytes.find(b'BT', start)
-            if start == -1:
-                break
-            end = pdf_bytes.find(b'ET', start)
-            if end == -1:
-                break
-            chunk = pdf_bytes[start:end]
-            for part in chunk.split(b'('):
-                if b')' in part:
-                    text = part[:part.index(b')')].decode('latin-1', errors='ignore')
-                    if text.strip():
-                        text_parts.append(text)
-            start = end + 2
-        pdf_text = ' '.join(text_parts) if text_parts else ""
-        if pdf_text:
-            st.success("✅ PDF Ready!")
-        else:
-            st.warning("⚠️ Could not extract text from this PDF.")
+        file_ext = uploaded_file.name.split(".")[-1].lower()
+        if file_ext in ["png", "jpg", "jpeg", "webp"]:
+            try:
+                uploaded_image = Image.open(uploaded_file)
+                st.image(uploaded_image, caption=f"📷 {uploaded_file.name}", use_container_width=True)
+                st.success("✅ Image Ready!")
+            except Exception as e:
+                st.error(f"Image error: {e}")
+        elif file_ext == "pdf":
+            pdf_bytes = uploaded_file.read()
+            text_parts = []
+            start = 0
+            while True:
+                start = pdf_bytes.find(b'BT', start)
+                if start == -1:
+                    break
+                end = pdf_bytes.find(b'ET', start)
+                if end == -1:
+                    break
+                chunk = pdf_bytes[start:end]
+                for part in chunk.split(b'('):
+                    if b')' in part:
+                        text = part[:part.index(b')')].decode('latin-1', errors='ignore')
+                        if text.strip():
+                            text_parts.append(text)
+                start = end + 2
+            pdf_text = ' '.join(text_parts) if text_parts else ""
+            if pdf_text:
+                st.success("✅ PDF Ready!")
+            else:
+                st.warning("⚠️ Could not extract text from this PDF.")
 
     st.markdown('<div class="sb-section sb-actions">', unsafe_allow_html=True)
     if st.button("🗑️  Clear Conversation", key="clear_btn"):
@@ -133,28 +144,48 @@ if chat_key not in st.session_state:
         )
     )
 
-if user_input := st.chat_input("Message Sika AI..."):
-    full_prompt = (
-        f"Context from uploaded PDF:\n---\n{pdf_text[:8000]}\n---\n"
-        f"User question: {user_input}"
-    ) if pdf_text else user_input
+user_input = st.chat_input("Message Sika AI...")
 
-    st.session_state.messages.append({"role": "user", "content": user_input})
-
-    try:
-        response = st.session_state[chat_key].send_message(full_prompt)
-        ai_reply = response.text
-    except Exception as e:
-        st.session_state.pop(chat_key, None)
-        ai_reply = f"Error: {e}"
-
-    st.session_state.messages.append({"role": "assistant", "content": ai_reply})
-    st.rerun()
-
-if not st.session_state.messages:
+if not st.session_state.messages and not user_input:
     with open("welcome_screen.html", "r", encoding="utf-8") as f:
         st.markdown(f.read(), unsafe_allow_html=True)
 else:
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
+            if "image" in message and message["image"]:
+                st.image(message["image"], width=280)
             st.markdown(message["content"])
+
+if user_input:
+    contents = []
+    if pdf_text:
+        contents.append(f"Context from uploaded PDF:\n---\n{pdf_text[:8000]}\n---")
+    if uploaded_image:
+        contents.append(uploaded_image)
+    contents.append(user_input)
+
+    user_msg = {"role": "user", "content": user_input}
+    if uploaded_image:
+        user_msg["image"] = uploaded_image
+    st.session_state.messages.append(user_msg)
+
+    with st.chat_message("user"):
+        if uploaded_image:
+            st.image(uploaded_image, width=280)
+        st.markdown(user_input)
+
+    with st.chat_message("assistant"):
+        try:
+            def stream_generator():
+                stream = st.session_state[chat_key].send_message_stream(contents)
+                for chunk in stream:
+                    if chunk.text:
+                        yield chunk.text
+
+            ai_reply = st.write_stream(stream_generator)
+        except Exception as e:
+            st.session_state.pop(chat_key, None)
+            ai_reply = f"Error: {e}"
+            st.error(ai_reply)
+
+    st.session_state.messages.append({"role": "assistant", "content": ai_reply})

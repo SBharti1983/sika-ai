@@ -20,7 +20,7 @@ html, body {
     overflow: hidden;
 }
 
-/* Hide Streamlit chrome & Cloud toolbar (Share, Star, Edit, GitHub, Deploy, Footer, Manage app) */
+/* Hide Streamlit chrome & Cloud toolbar (Share, Star, Edit, GitHub, Deploy, Footer, Manage app, Cloud badges) */
 #MainMenu,
 footer,
 .stDeployButton,
@@ -29,10 +29,20 @@ footer,
 .stAppToolbar,
 [class*="viewerBadge"],
 [class*="styles_viewerBadge"],
+[class*="viewerBadge_container"],
+[class*="FloatingButton"],
+[class*="badgeContainer"],
+[class*="ProfileBadge"],
+[class*="profileBadge"],
 [data-testid="manage-app-button"],
-div[class*="manage-app"] {
+div[class*="manage-app"],
+div:has(> [data-testid="manage-app-button"]),
+div:has(> [class*="viewerBadge"]),
+div:has(> a[href*="streamlit.io"]) {
     display: none !important;
     visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
 }
 
 /* Header transparent */
@@ -41,25 +51,31 @@ header[data-testid="stHeader"] {
     color: inherit !important;
 }
 
-/* ── SIDEBAR EXPAND & COLLAPSE BUTTONS — ALWAYS VISIBLE ── */
+/* ── SIDEBAR EXPAND & COLLAPSE BUTTONS — ALWAYS VISIBLE & ACCESSIBLE ── */
 [data-testid="collapsedControl"],
-[data-testid="stSidebarCollapsedControl"] {
-    display: block !important;
+[data-testid="stSidebarCollapsedControl"],
+section[data-testid="stSidebar"] [data-testid="stSidebarCollapsedControl"],
+header [data-testid="stSidebarCollapsedControl"] {
+    display: flex !important;
     visibility: visible !important;
     opacity: 1 !important;
     position: fixed !important;
     top: 14px !important;
     left: 14px !important;
-    z-index: 99999999 !important;
+    z-index: 999999999 !important;
+    pointer-events: auto !important;
 }
 
 [data-testid="collapsedControl"] button,
 [data-testid="stSidebarCollapsedControl"] button,
+section[data-testid="stSidebar"] [data-testid="stSidebarCollapsedControl"] button,
 [data-testid="stSidebarCollapseButton"],
+[data-testid="stSidebarCollapseButton"] button,
 [data-testid="stSidebarNavCollapseButton"],
 header button:first-child,
 button[aria-label*="sidebar" i],
-button[aria-label*="Sidebar" i] {
+button[aria-label*="Sidebar" i],
+button[kind="header"] {
     display: flex !important;
     visibility: visible !important;
     opacity: 1 !important;
@@ -90,10 +106,13 @@ button[aria-label*="Sidebar" i] svg {
     width: 20px !important;
     height: 20px !important;
     display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 [data-testid="collapsedControl"] button:hover,
 [data-testid="stSidebarCollapsedControl"] button:hover,
+section[data-testid="stSidebar"] [data-testid="stSidebarCollapsedControl"] button:hover,
 [data-testid="stSidebarCollapseButton"]:hover,
 [data-testid="stSidebarNavCollapseButton"]:hover,
 header button:first-child:hover,
@@ -123,29 +142,12 @@ section[data-testid="stSidebar"] .block-container {
     padding: 0 !important;
 }
 
-/* ── COMPLETELY HIDE SIDEBAR WHEN COLLAPSED (Zero Edge Sliver on Mobile & Desktop) ── */
+/* ── COLLAPSED SIDEBAR (Clean edges, zero sliver, expand button preserved) ── */
 section[data-testid="stSidebar"][aria-expanded="false"],
 [data-testid="stSidebar"][aria-expanded="false"] {
-    display: none !important;
-    visibility: hidden !important;
-    margin-left: -100vw !important;
-    transform: translateX(-100vw) !important;
-    width: 0 !important;
-    min-width: 0 !important;
-    max-width: 0 !important;
-    border: none !important;
     border-right: none !important;
     box-shadow: none !important;
-    pointer-events: none !important;
-    overflow: hidden !important;
-    opacity: 0 !important;
-}
-
-section[data-testid="stSidebar"][aria-expanded="false"] * {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
+    background: transparent !important;
 }
 
 section[data-testid="stSidebar"][aria-expanded="true"],
@@ -722,6 +724,26 @@ hr {
    📱 MOBILE FRIENDLY — max-width 768px
    ════════════════════════════════════════ */
 @media (max-width: 768px) {
+
+    /* Mobile Sidebar overlay when expanded */
+    section[data-testid="stSidebar"][aria-expanded="true"] {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        height: 100vh !important;
+        width: 85vw !important;
+        max-width: 320px !important;
+        z-index: 99999999 !important;
+        background: #111116 !important;
+        box-shadow: 8px 0 32px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    section[data-testid="stSidebar"][aria-expanded="true"] > div {
+        height: 100vh !important;
+    }
 
     /* Main area full width */
     .block-container {
