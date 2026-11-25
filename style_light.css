@@ -11,9 +11,9 @@
 #MainMenu,
 footer,
 .stDeployButton,
-[data-testid="stToolbar"],
 [data-testid="stHeaderActionElements"],
-.stAppToolbar,
+[data-testid="stToolbarActions"],
+[data-testid="stMainMenu"],
 [class*="viewerBadge"],
 [class*="styles_viewerBadge"],
 [class*="viewerBadge_container"],
@@ -32,6 +32,100 @@ div:has(> a[href*="streamlit.io"]) {
     pointer-events: none !important;
 }
 
+/* Header & Toolbar transparent container — allow expand button to render and receive clicks */
+header[data-testid="stHeader"] {
+    background: transparent !important;
+    color: inherit !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    border: none !important;
+}
+
+header[data-testid="stHeader"] [data-testid="stToolbar"],
+header[data-testid="stHeader"] .stAppToolbar {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    background: transparent !important;
+    pointer-events: none !important;
+}
+
+/* ── SIDEBAR EXPAND & COLLAPSE BUTTONS — ALWAYS VISIBLE & ACCESSIBLE ── */
+button[data-testid="stExpandSidebarButton"],
+[data-testid="stExpandSidebarButton"],
+button[aria-label="Expand sidebar"],
+[data-testid="collapsedControl"],
+[data-testid="stSidebarCollapsedControl"] {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: fixed !important;
+    top: 14px !important;
+    left: 14px !important;
+    z-index: 999999999 !important;
+    pointer-events: auto !important;
+    background: #ffffff !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.2s ease !important;
+}
+
+button[data-testid="stExpandSidebarButton"] svg,
+[data-testid="stExpandSidebarButton"] svg,
+button[aria-label="Expand sidebar"] svg,
+[data-testid="collapsedControl"] svg,
+[data-testid="stSidebarCollapsedControl"] svg,
+[data-testid="stSidebarCollapseButton"] svg,
+button[aria-label*="sidebar" i] svg,
+button[aria-label*="Sidebar" i] svg {
+    color: #6d28d9 !important;
+    fill: #6d28d9 !important;
+    width: 20px !important;
+    height: 20px !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+button[data-testid="stExpandSidebarButton"]:hover,
+[data-testid="stExpandSidebarButton"]:hover,
+button[aria-label="Expand sidebar"]:hover,
+[data-testid="collapsedControl"] button:hover,
+[data-testid="stSidebarCollapseButton"]:hover {
+    background: #f8fafc !important;
+    border-color: #6d28d9 !important;
+    transform: scale(1.06) !important;
+}
+
+/* ── SIDEBAR COLLAPSE BUTTON (when sidebar is open) ── */
+div[data-testid="stSidebarCollapseButton"] button,
+button[aria-label="Collapse sidebar"],
+[data-testid="stSidebarCollapseButton"] {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    background: #ffffff !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+}
+
 /* ── SIDEBAR (High-Contrast Slate) ── */
 section[data-testid="stSidebar"] {
     background: #f1f5f9 !important;
@@ -47,15 +141,15 @@ section[data-testid="stSidebar"] > div {
 }
 
 /* ── COLLAPSED SIDEBAR (Clean edges, zero sliver, expand button preserved) ── */
-section[data-testid="stSidebar"][aria-expanded="false"],
-[data-testid="stSidebar"][aria-expanded="false"] {
+section[data-testid="stSidebar"][data-collapsed="true"],
+section[data-testid="stSidebar"][aria-expanded="false"] {
     border-right: none !important;
     box-shadow: none !important;
     background: transparent !important;
 }
 
-section[data-testid="stSidebar"][aria-expanded="true"],
-[data-testid="stSidebar"][aria-expanded="true"] {
+section[data-testid="stSidebar"][data-collapsed="false"],
+section[data-testid="stSidebar"][aria-expanded="true"] {
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
