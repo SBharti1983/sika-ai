@@ -1,0 +1,19 @@
+# Environment & Secrets (NEVER upload to GitHub!)
+.env
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# IDE Settings
+.idea/
+.vscode/
+
+# OS Files
+Thumbs.db
+.DS_Store

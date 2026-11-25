@@ -1,0 +1,455 @@
+/* ============================================================
+   SIKA AI — Light Theme Overrides (High-Contrast Edition)
+   ============================================================ */
+
+/* ── GLOBAL ── */
+.stApp {
+    background: #f8fafc !important;
+    color: #0f172a !important;
+}
+
+/* ── SIDEBAR (High-Contrast Slate) ── */
+section[data-testid="stSidebar"] {
+    background: #f1f5f9 !important;
+    border-right: 1.5px solid #cbd5e1 !important;
+    box-shadow: 2px 0 16px rgba(0, 0, 0, 0.03);
+    transition: transform 0.25s ease, margin-left 0.25s ease !important;
+}
+
+section[data-testid="stSidebar"] > div {
+    background: #f1f5f9 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
+
+/* ── COMPLETELY HIDE SIDEBAR WHEN COLLAPSED (Zero Edge Sliver on Mobile & Desktop) ── */
+section[data-testid="stSidebar"][aria-expanded="false"],
+[data-testid="stSidebar"][aria-expanded="false"] {
+    display: none !important;
+    visibility: hidden !important;
+    margin-left: -100vw !important;
+    transform: translateX(-100vw) !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+    border: none !important;
+    border-right: none !important;
+    box-shadow: none !important;
+    pointer-events: none !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+}
+
+section[data-testid="stSidebar"][aria-expanded="false"] * {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+section[data-testid="stSidebar"][aria-expanded="true"],
+[data-testid="stSidebar"][aria-expanded="true"] {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+/* ── SIDEBAR LOGO ── */
+.sb-logo {
+    border-bottom: 1.5px solid #cbd5e1 !important;
+    background: #f1f5f9 !important;
+    margin-bottom: 1.2rem !important;
+    padding: 1.6rem 1rem 0.8rem !important;
+}
+
+.sb-logo-title {
+    color: #0f172a !important;
+}
+
+.sb-logo-sub {
+    color: #475569 !important;
+    font-weight: 600 !important;
+    font-size: 0.68rem !important;
+}
+
+/* ── SIDEBAR LABELS (Sharp & High-Contrast) ── */
+.sb-label {
+    color: #1e293b !important;
+    font-size: 0.68rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    margin-top: 1.1rem !important;
+    margin-bottom: 0.45rem !important;
+    display: block !important;
+}
+
+/* ── SELECTBOX ── */
+.stSelectbox > div > div {
+    background: #ffffff !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    color: #0f172a !important;
+    font-weight: 600 !important;
+    font-size: 0.82rem !important;
+}
+
+.stSelectbox > div > div:hover {
+    border-color: #6d28d9 !important;
+}
+
+[data-baseweb="popover"] {
+    background: #ffffff !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-baseweb="menu"] li {
+    color: #0f172a !important;
+    font-weight: 500 !important;
+}
+
+[data-baseweb="menu"] li:hover {
+    background: #ede9fe !important;
+    color: #6d28d9 !important;
+}
+
+/* ── TEXTAREA ── */
+.stTextArea textarea {
+    background: #ffffff !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    color: #0f172a !important;
+    font-size: 0.82rem !important;
+    line-height: 1.5 !important;
+}
+
+.stTextArea textarea:focus {
+    border-color: #6d28d9 !important;
+    box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.12) !important;
+}
+
+/* ── FILE UPLOADER (High-Contrast White Card) ── */
+[data-testid="stFileUploader"] {
+    background: #ffffff !important;
+    border: 1.5px dashed #94a3b8 !important;
+    border-radius: 8px !important;
+    padding: 0.6rem !important;
+    margin-bottom: 1.2rem !important;
+}
+
+[data-testid="stFileUploader"]:hover {
+    border-color: #6d28d9 !important;
+}
+
+[data-testid="stFileUploader"] > div,
+[data-testid="stFileUploader"] > div > div {
+    background: #ffffff !important;
+}
+
+[data-testid="stFileUploaderDropzone"] {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+}
+
+[data-testid="stFileUploader"] span,
+[data-testid="stFileUploaderDropzoneInstructions"] span,
+[data-testid="stFileUploaderDropzoneInstructions"] small {
+    color: #475569 !important;
+    font-weight: 500 !important;
+}
+
+[data-testid="stFileUploader"] button {
+    background: #ffffff !important;
+    border: 1.5px solid #cbd5e1 !important;
+    color: #0f172a !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
+}
+
+[data-testid="stFileUploader"] button:hover {
+    background: #f1f5f9 !important;
+    border-color: #6d28d9 !important;
+}
+
+/* ── SIDEBAR ACTION BUTTONS (Light) ── */
+section[data-testid="stSidebar"] .stButton > button {
+    border-radius: 8px !important;
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+    padding: 0.52rem 0.8rem !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: unset !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    margin: 0.3rem 0 !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Clear Conversation in Light */
+section[data-testid="stSidebar"] [data-testid="stVerticalBlock"] > div:has(.stButton) button,
+section[data-testid="stSidebar"] .stButton:nth-of-type(1) > button {
+    background: #fef2f2 !important;
+    border: 1px solid #fecaca !important;
+    color: #dc2626 !important;
+}
+
+section[data-testid="stSidebar"] [data-testid="stVerticalBlock"] > div:has(.stButton) button:hover,
+section[data-testid="stSidebar"] .stButton:nth-of-type(1) > button:hover {
+    background: #fee2e2 !important;
+    border-color: #ef4444 !important;
+    color: #b91c1c !important;
+}
+
+/* Theme Toggle in Light */
+section[data-testid="stSidebar"] [data-testid="stVerticalBlock"] > div:has(.stButton) ~ div:has(.stButton) button,
+section[data-testid="stSidebar"] .stButton:nth-of-type(2) > button {
+    background: #f5f3ff !important;
+    border: 1px solid #ddd6fe !important;
+    color: #6d28d9 !important;
+    margin-bottom: 0.8rem !important;
+}
+
+section[data-testid="stSidebar"] [data-testid="stVerticalBlock"] > div:has(.stButton) ~ div:has(.stButton) button:hover,
+section[data-testid="stSidebar"] .stButton:nth-of-type(2) > button:hover {
+    background: #ede9fe !important;
+    border-color: #6d28d9 !important;
+    color: #5b21b6 !important;
+}
+
+/* ── MAIN AREA ── */
+.block-container {
+    background: #f5f5f5 !important;
+}
+
+[data-testid="stMain"],
+[data-testid="stAppViewContainer"],
+[data-testid="stMainBlockContainer"] {
+    background: #f5f5f5 !important;
+}
+
+/* ── WELCOME HEADER ── */
+.welcome-title {
+    color: #111111 !important;
+}
+
+.welcome-subtitle {
+    color: #6b7280 !important;
+}
+
+/* ── SUGGESTION CARDS ── */
+.sug-card {
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.sug-card:hover {
+    border-color: #6d28d9 !important;
+    background: rgba(109, 40, 217, 0.03) !important;
+    box-shadow: 0 4px 16px rgba(109, 40, 217, 0.1);
+}
+
+.sug-title {
+    color: #111111 !important;
+}
+
+.sug-desc {
+    color: #9ca3af !important;
+}
+
+/* ── CHAT MESSAGES ── */
+[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) {
+    background: #ede9fe !important;
+    border: 1px solid #ddd6fe !important;
+}
+
+[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarAssistant"]) {
+    background: transparent !important;
+    border-left: 2px solid #6d28d9 !important;
+}
+
+[data-testid="stChatMessageAvatarAssistant"] {
+    background: #f3f4f6 !important;
+    border: 1px solid #e5e7eb !important;
+}
+
+[data-testid="stChatMessage"] p,
+[data-testid="stChatMessage"] li,
+[data-testid="stChatMessage"] span {
+    color: #111111 !important;
+}
+
+[data-testid="stChatMessage"] code {
+    background: #f3f4f6 !important;
+    border: 1px solid #e5e7eb !important;
+    color: #6d28d9 !important;
+}
+
+[data-testid="stChatMessage"] pre {
+    background: #f9fafb !important;
+    border: 1px solid #e5e7eb !important;
+}
+
+/* ── CHAT INPUT ── */
+[data-testid="stBottom"],
+[data-testid="stBottom"] > div,
+[data-testid="stBottom"] > div > div,
+[data-testid="stBottom"] > div > div > div,
+[data-testid="stBottom"] > div > div > div > div {
+    background: #f5f5f5 !important;
+}
+
+/* Nuclear override for light — match dark specificity */
+[data-testid="stBottom"] * {
+    background-color: #f5f5f5 !important;
+}
+
+.stChatFloatingInputContainer,
+.stChatFloatingInputContainer * {
+    background-color: #f5f5f5 !important;
+}
+
+div[class*="chatInputContainer"],
+div[class*="bottom"],
+div[class*="Bottom"] {
+    background-color: #f5f5f5 !important;
+}
+
+body, html {
+    background: #f5f5f5 !important;
+}
+
+.stApp, .stApp > div, .stApp > div > div,
+.stApp > div > div > div,
+[data-testid="stAppViewContainer"],
+[data-testid="stAppViewContainer"] > div,
+[data-testid="stMain"],
+[data-testid="stMain"] > div,
+iframe + div {
+    background: #f5f5f5 !important;
+}
+
+[data-testid="stChatInput"] {
+    background: #ffffff !important;
+    border: 1.5px solid #e5e7eb !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important;
+}
+
+[data-testid="stChatInput"]:focus-within {
+    border-color: #6d28d9 !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06), 0 0 0 3px rgba(109,40,217,0.1) !important;
+}
+
+[data-testid="stChatInput"] textarea {
+    background: transparent !important;
+    color: #111111 !important;
+}
+
+[data-testid="stChatInput"] textarea::placeholder {
+    color: #9ca3af !important;
+}
+
+/* Send button — keep gradient */
+[data-testid="stChatInput"] button {
+    background: linear-gradient(135deg, #6d28d9, #0ea5e9) !important;
+    color: white !important;
+}
+
+/* ── ALERTS ── */
+.stAlert {
+    background: #f9fafb !important;
+    border: 1px solid #e5e7eb !important;
+    color: #111111 !important;
+}
+
+/* ── HR ── */
+hr {
+    border-top: 1px solid #e5e7eb !important;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar-thumb { background: #d1d5db; }
+::-webkit-scrollbar-thumb:hover { background: #6d28d9; }
+
+/* ── MOBILE OVERLAYS (Light Mode) ── */
+@media (max-width: 768px) {
+    /* Let Streamlit slide sidebar naturally without force pinning left */
+    [data-testid="collapsedControl"] button,
+    [data-testid="stSidebarCollapsedControl"] button,
+    [data-testid="stSidebarCollapseButton"],
+    [data-testid="stSidebarNavCollapseButton"],
+    button[aria-label*="sidebar" i],
+    header button:first-child {
+        background: #ffffff !important;
+        border: 1.5px solid #cbd5e1 !important;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1) !important;
+    }
+}
+[data-testid="collapsedControl"],
+[data-testid="stSidebarCollapsedControl"] {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: fixed !important;
+    top: 14px !important;
+    left: 14px !important;
+    z-index: 99999999 !important;
+}
+
+[data-testid="collapsedControl"] button,
+[data-testid="stSidebarCollapsedControl"] button,
+[data-testid="stSidebarCollapseButton"],
+[data-testid="stSidebarNavCollapseButton"],
+header button:first-child,
+button[aria-label*="sidebar" i],
+button[aria-label*="Sidebar" i] {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    background: #ffffff !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.2s ease !important;
+}
+
+[data-testid="collapsedControl"] svg,
+[data-testid="stSidebarCollapsedControl"] svg,
+[data-testid="stSidebarCollapseButton"] svg,
+[data-testid="stSidebarNavCollapseButton"] svg,
+header button:first-child svg,
+button[aria-label*="sidebar" i] svg,
+button[aria-label*="Sidebar" i] svg {
+    color: #6d28d9 !important;
+    fill: #6d28d9 !important;
+    width: 20px !important;
+    height: 20px !important;
+    display: block !important;
+}
+
+[data-testid="collapsedControl"] button:hover,
+[data-testid="stSidebarCollapsedControl"] button:hover,
+[data-testid="stSidebarCollapseButton"]:hover,
+[data-testid="stSidebarNavCollapseButton"]:hover,
+header button:first-child:hover,
+button[aria-label*="sidebar" i]:hover,
+button[aria-label*="Sidebar" i]:hover {
+    background: #f8fafc !important;
+    border-color: #6d28d9 !important;
+    transform: scale(1.06) !important;
+}
