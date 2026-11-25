@@ -36,7 +36,10 @@ if st.session_state.theme == "light":
 
 @st.cache_resource
 def get_client(key: str):
-    return genai.Client(api_key=key)
+    return genai.Client(
+        api_key=key,
+        http_options={"api_version": "v1beta"}
+    )
 
 
 client = get_client(API_KEY)
