@@ -58,7 +58,7 @@ with st.sidebar:
     st.markdown('<span class="sb-label">🤖 AI Model</span>', unsafe_allow_html=True)
     selected_model = st.selectbox(
         label="model",
-        options=["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"],
+        options=["gemini-3.5-flash", "gemini-3.5-flash-lite", "gemini-2.5-flash"],
         label_visibility="collapsed"
     )
     st.markdown('</div>', unsafe_allow_html=True)
@@ -175,17 +175,43 @@ if user_input:
         st.markdown(user_input)
 
     with st.chat_message("assistant"):
-        try:
-            def stream_generator():
-                stream = st.session_state[chat_key].send_message_stream(contents)
+        def make_stream(chat_instance):
+            def _gen():
+                stream = chat_instance.send_message_stream(contents)
                 for chunk in stream:
                     if chunk.text:
                         yield chunk.text
+            return _gen
 
-            ai_reply = st.write_stream(stream_generator)
+        try:
+            ai_reply = st.write_stream(make_stream(st.session_state[chat_key]))
         except Exception as e:
+            err_str = str(e)
             st.session_state.pop(chat_key, None)
-            ai_reply = f"Error: {e}"
-            st.error(ai_reply)
+            if "429" in err_str or "RESOURCE_EXHAUSTED" in err_str:
+                st.warning("⚠️ Daily limit reached on this model. Auto-switching to backup model...")
+                fallback_done = False
+                for fb_name in ["gemini-3.5-flash", "gemini-3.5-flash-lite"]:
+                    if fb_name == selected_model:
+                        continue
+                    try:
+                        fb_chat = client.chats.create(
+                            model=fb_name,
+                            config=types.GenerateContentConfig(
+                                system_instruction=system_prompt
+                            )
+                        )
+                        ai_reply = st.write_stream(make_stream(fb_chat))
+                        st.session_state[f"chat_{fb_name}"] = fb_chat
+                        fallback_done = True
+                        break
+                    except Exception:
+                        continue
+                if not fallback_done:
+                    ai_reply = "⚠️ Google Free Tier daily request limit reached. Please retry tomorrow or use another model from the sidebar."
+                    st.error(ai_reply)
+            else:
+                ai_reply = f"Error: {e}"
+                st.error(ai_reply)
 
     st.session_state.messages.append({"role": "assistant", "content": ai_reply})
